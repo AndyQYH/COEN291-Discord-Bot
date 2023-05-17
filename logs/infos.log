@@ -1,0 +1,279 @@
+WARNING    - 2023-05-16 17:58:01,180 - client          : PyNaCl is not installed, voice will NOT be supported
+INFO       - 2023-05-16 17:58:01,184 - client          : logging in using static token
+INFO       - 2023-05-16 17:58:01,924 - gateway         : Shard ID None has connected to Gateway (Session ID: 2421a92db8aa1a88c29937067207fdef).
+WARNING    - 2023-05-16 18:00:56,737 - gateway         : Shard ID None heartbeat blocked for more than 10 seconds.
+Loop thread traceback (most recent call last):
+  File "C:\Users\qinan\OneDrive\Desktop\COEN\COEN291\bot\main.py", line 112, in <module>
+    run_bot(dc_token)
+  File "C:\Users\qinan\OneDrive\Desktop\COEN\COEN291\bot\main.py", line 109, in run_bot
+    bot.run(token = token, root_logger=True)
+  File "C:\Users\qinan\AppData\Local\Programs\Python\Python39\lib\site-packages\discord\client.py", line 860, in run
+    asyncio.run(runner())
+  File "C:\Users\qinan\AppData\Local\Programs\Python\Python39\lib\asyncio\runners.py", line 44, in run
+    return loop.run_until_complete(main)
+  File "C:\Users\qinan\AppData\Local\Programs\Python\Python39\lib\asyncio\base_events.py", line 634, in run_until_complete
+    self.run_forever()
+  File "C:\Users\qinan\AppData\Local\Programs\Python\Python39\lib\asyncio\windows_events.py", line 321, in run_forever
+    super().run_forever()
+  File "C:\Users\qinan\AppData\Local\Programs\Python\Python39\lib\asyncio\base_events.py", line 601, in run_forever
+    self._run_once()
+  File "C:\Users\qinan\AppData\Local\Programs\Python\Python39\lib\asyncio\base_events.py", line 1905, in _run_once
+    handle._run()
+  File "C:\Users\qinan\AppData\Local\Programs\Python\Python39\lib\asyncio\events.py", line 80, in _run
+    self._context.run(self._callback, *self._args)
+  File "C:\Users\qinan\AppData\Local\Programs\Python\Python39\lib\site-packages\discord\client.py", line 441, in _run_event
+    await coro(*args, **kwargs)
+  File "C:\Users\qinan\AppData\Local\Programs\Python\Python39\lib\site-packages\discord\ext\commands\bot.py", line 1395, in on_message
+    await self.process_commands(message)
+  File "C:\Users\qinan\AppData\Local\Programs\Python\Python39\lib\site-packages\discord\ext\commands\bot.py", line 1392, in process_commands
+    await self.invoke(ctx)  # type: ignore
+  File "C:\Users\qinan\AppData\Local\Programs\Python\Python39\lib\site-packages\discord\ext\commands\bot.py", line 1350, in invoke
+    await ctx.command.invoke(ctx)
+  File "C:\Users\qinan\AppData\Local\Programs\Python\Python39\lib\site-packages\discord\ext\commands\core.py", line 1023, in invoke
+    await injected(*ctx.args, **ctx.kwargs)  # type: ignore
+  File "C:\Users\qinan\AppData\Local\Programs\Python\Python39\lib\site-packages\discord\ext\commands\core.py", line 229, in wrapped
+    ret = await coro(*args, **kwargs)
+  File "C:\Users\qinan\OneDrive\Desktop\COEN\COEN291\bot\main.py", line 99, in joke
+    Wallpaper.get_wallpaper(joke, "images")
+  File "C:\Users\qinan\OneDrive\Desktop\COEN\COEN291\bot\Wallpaper.py", line 56, in get_wallpaper
+    get_img_from_stability(quote)
+  File "C:\Users\qinan\OneDrive\Desktop\COEN\COEN291\bot\Wallpaper.py", line 20, in get_img_from_stability
+    response = requests.post(
+  File "C:\Users\qinan\AppData\Local\Programs\Python\Python39\lib\site-packages\requests\api.py", line 115, in post
+    return request("post", url, data=data, json=json, **kwargs)
+  File "C:\Users\qinan\AppData\Local\Programs\Python\Python39\lib\site-packages\requests\api.py", line 59, in request
+    return session.request(method=method, url=url, **kwargs)
+  File "C:\Users\qinan\AppData\Local\Programs\Python\Python39\lib\site-packages\requests\sessions.py", line 587, in request
+    resp = self.send(prep, **send_kwargs)
+  File "C:\Users\qinan\AppData\Local\Programs\Python\Python39\lib\site-packages\requests\sessions.py", line 701, in send
+    r = adapter.send(request, **kwargs)
+  File "C:\Users\qinan\AppData\Local\Programs\Python\Python39\lib\site-packages\requests\adapters.py", line 489, in send
+    resp = conn.urlopen(
+  File "C:\Users\qinan\AppData\Local\Programs\Python\Python39\lib\site-packages\urllib3\connectionpool.py", line 703, in urlopen
+    httplib_response = self._make_request(
+  File "C:\Users\qinan\AppData\Local\Programs\Python\Python39\lib\site-packages\urllib3\connectionpool.py", line 444, in _make_request
+    httplib_response = conn.getresponse()
+  File "C:\Users\qinan\AppData\Local\Programs\Python\Python39\lib\http\client.py", line 1377, in getresponse
+    response.begin()
+  File "C:\Users\qinan\AppData\Local\Programs\Python\Python39\lib\http\client.py", line 320, in begin
+    version, status, reason = self._read_status()
+  File "C:\Users\qinan\AppData\Local\Programs\Python\Python39\lib\http\client.py", line 281, in _read_status
+    line = str(self.fp.readline(_MAXLINE + 1), "iso-8859-1")
+  File "C:\Users\qinan\AppData\Local\Programs\Python\Python39\lib\socket.py", line 704, in readinto
+    return self._sock.recv_into(b)
+  File "C:\Users\qinan\AppData\Local\Programs\Python\Python39\lib\ssl.py", line 1241, in recv_into
+    return self.read(nbytes, buffer)
+  File "C:\Users\qinan\AppData\Local\Programs\Python\Python39\lib\ssl.py", line 1099, in read
+    return self._sslobj.read(len, buffer)
+
+WARNING    - 2023-05-16 18:01:06,759 - gateway         : Shard ID None heartbeat blocked for more than 20 seconds.
+Loop thread traceback (most recent call last):
+  File "C:\Users\qinan\OneDrive\Desktop\COEN\COEN291\bot\main.py", line 112, in <module>
+    run_bot(dc_token)
+  File "C:\Users\qinan\OneDrive\Desktop\COEN\COEN291\bot\main.py", line 109, in run_bot
+    bot.run(token = token, root_logger=True)
+  File "C:\Users\qinan\AppData\Local\Programs\Python\Python39\lib\site-packages\discord\client.py", line 860, in run
+    asyncio.run(runner())
+  File "C:\Users\qinan\AppData\Local\Programs\Python\Python39\lib\asyncio\runners.py", line 44, in run
+    return loop.run_until_complete(main)
+  File "C:\Users\qinan\AppData\Local\Programs\Python\Python39\lib\asyncio\base_events.py", line 634, in run_until_complete
+    self.run_forever()
+  File "C:\Users\qinan\AppData\Local\Programs\Python\Python39\lib\asyncio\windows_events.py", line 321, in run_forever
+    super().run_forever()
+  File "C:\Users\qinan\AppData\Local\Programs\Python\Python39\lib\asyncio\base_events.py", line 601, in run_forever
+    self._run_once()
+  File "C:\Users\qinan\AppData\Local\Programs\Python\Python39\lib\asyncio\base_events.py", line 1905, in _run_once
+    handle._run()
+  File "C:\Users\qinan\AppData\Local\Programs\Python\Python39\lib\asyncio\events.py", line 80, in _run
+    self._context.run(self._callback, *self._args)
+  File "C:\Users\qinan\AppData\Local\Programs\Python\Python39\lib\site-packages\discord\client.py", line 441, in _run_event
+    await coro(*args, **kwargs)
+  File "C:\Users\qinan\AppData\Local\Programs\Python\Python39\lib\site-packages\discord\ext\commands\bot.py", line 1395, in on_message
+    await self.process_commands(message)
+  File "C:\Users\qinan\AppData\Local\Programs\Python\Python39\lib\site-packages\discord\ext\commands\bot.py", line 1392, in process_commands
+    await self.invoke(ctx)  # type: ignore
+  File "C:\Users\qinan\AppData\Local\Programs\Python\Python39\lib\site-packages\discord\ext\commands\bot.py", line 1350, in invoke
+    await ctx.command.invoke(ctx)
+  File "C:\Users\qinan\AppData\Local\Programs\Python\Python39\lib\site-packages\discord\ext\commands\core.py", line 1023, in invoke
+    await injected(*ctx.args, **ctx.kwargs)  # type: ignore
+  File "C:\Users\qinan\AppData\Local\Programs\Python\Python39\lib\site-packages\discord\ext\commands\core.py", line 229, in wrapped
+    ret = await coro(*args, **kwargs)
+  File "C:\Users\qinan\OneDrive\Desktop\COEN\COEN291\bot\main.py", line 99, in joke
+    Wallpaper.get_wallpaper(joke, "images")
+  File "C:\Users\qinan\OneDrive\Desktop\COEN\COEN291\bot\Wallpaper.py", line 56, in get_wallpaper
+    get_img_from_stability(quote)
+  File "C:\Users\qinan\OneDrive\Desktop\COEN\COEN291\bot\Wallpaper.py", line 20, in get_img_from_stability
+    response = requests.post(
+  File "C:\Users\qinan\AppData\Local\Programs\Python\Python39\lib\site-packages\requests\api.py", line 115, in post
+    return request("post", url, data=data, json=json, **kwargs)
+  File "C:\Users\qinan\AppData\Local\Programs\Python\Python39\lib\site-packages\requests\api.py", line 59, in request
+    return session.request(method=method, url=url, **kwargs)
+  File "C:\Users\qinan\AppData\Local\Programs\Python\Python39\lib\site-packages\requests\sessions.py", line 587, in request
+    resp = self.send(prep, **send_kwargs)
+  File "C:\Users\qinan\AppData\Local\Programs\Python\Python39\lib\site-packages\requests\sessions.py", line 701, in send
+    r = adapter.send(request, **kwargs)
+  File "C:\Users\qinan\AppData\Local\Programs\Python\Python39\lib\site-packages\requests\adapters.py", line 489, in send
+    resp = conn.urlopen(
+  File "C:\Users\qinan\AppData\Local\Programs\Python\Python39\lib\site-packages\urllib3\connectionpool.py", line 703, in urlopen
+    httplib_response = self._make_request(
+  File "C:\Users\qinan\AppData\Local\Programs\Python\Python39\lib\site-packages\urllib3\connectionpool.py", line 444, in _make_request
+    httplib_response = conn.getresponse()
+  File "C:\Users\qinan\AppData\Local\Programs\Python\Python39\lib\http\client.py", line 1377, in getresponse
+    response.begin()
+  File "C:\Users\qinan\AppData\Local\Programs\Python\Python39\lib\http\client.py", line 320, in begin
+    version, status, reason = self._read_status()
+  File "C:\Users\qinan\AppData\Local\Programs\Python\Python39\lib\http\client.py", line 281, in _read_status
+    line = str(self.fp.readline(_MAXLINE + 1), "iso-8859-1")
+  File "C:\Users\qinan\AppData\Local\Programs\Python\Python39\lib\socket.py", line 704, in readinto
+    return self._sock.recv_into(b)
+  File "C:\Users\qinan\AppData\Local\Programs\Python\Python39\lib\ssl.py", line 1241, in recv_into
+    return self.read(nbytes, buffer)
+  File "C:\Users\qinan\AppData\Local\Programs\Python\Python39\lib\ssl.py", line 1099, in read
+    return self._sslobj.read(len, buffer)
+
+ERROR      - 2023-05-16 18:01:12,208 - client          : Attempting a reconnect in 1.95s
+Traceback (most recent call last):
+  File "C:\Users\qinan\AppData\Local\Programs\Python\Python39\lib\site-packages\discord\client.py", line 659, in connect
+    await self.ws.poll_event()
+  File "C:\Users\qinan\AppData\Local\Programs\Python\Python39\lib\site-packages\discord\gateway.py", line 646, in poll_event
+    raise ConnectionClosed(self.socket, shard_id=self.shard_id, code=code) from None
+discord.errors.ConnectionClosed: Shard ID None WebSocket closed with 1000
+INFO       - 2023-05-16 18:01:14,428 - gateway         : Shard ID None has successfully RESUMED session 2421a92db8aa1a88c29937067207fdef.
+WARNING    - 2023-05-16 18:02:05,605 - gateway         : Shard ID None heartbeat blocked for more than 10 seconds.
+Loop thread traceback (most recent call last):
+  File "C:\Users\qinan\OneDrive\Desktop\COEN\COEN291\bot\main.py", line 112, in <module>
+    run_bot(dc_token)
+  File "C:\Users\qinan\OneDrive\Desktop\COEN\COEN291\bot\main.py", line 109, in run_bot
+    bot.run(token = token, root_logger=True)
+  File "C:\Users\qinan\AppData\Local\Programs\Python\Python39\lib\site-packages\discord\client.py", line 860, in run
+    asyncio.run(runner())
+  File "C:\Users\qinan\AppData\Local\Programs\Python\Python39\lib\asyncio\runners.py", line 44, in run
+    return loop.run_until_complete(main)
+  File "C:\Users\qinan\AppData\Local\Programs\Python\Python39\lib\asyncio\base_events.py", line 634, in run_until_complete
+    self.run_forever()
+  File "C:\Users\qinan\AppData\Local\Programs\Python\Python39\lib\asyncio\windows_events.py", line 321, in run_forever
+    super().run_forever()
+  File "C:\Users\qinan\AppData\Local\Programs\Python\Python39\lib\asyncio\base_events.py", line 601, in run_forever
+    self._run_once()
+  File "C:\Users\qinan\AppData\Local\Programs\Python\Python39\lib\asyncio\base_events.py", line 1905, in _run_once
+    handle._run()
+  File "C:\Users\qinan\AppData\Local\Programs\Python\Python39\lib\asyncio\events.py", line 80, in _run
+    self._context.run(self._callback, *self._args)
+  File "C:\Users\qinan\AppData\Local\Programs\Python\Python39\lib\site-packages\discord\client.py", line 441, in _run_event
+    await coro(*args, **kwargs)
+  File "C:\Users\qinan\AppData\Local\Programs\Python\Python39\lib\site-packages\discord\ext\commands\bot.py", line 1395, in on_message
+    await self.process_commands(message)
+  File "C:\Users\qinan\AppData\Local\Programs\Python\Python39\lib\site-packages\discord\ext\commands\bot.py", line 1392, in process_commands
+    await self.invoke(ctx)  # type: ignore
+  File "C:\Users\qinan\AppData\Local\Programs\Python\Python39\lib\site-packages\discord\ext\commands\bot.py", line 1350, in invoke
+    await ctx.command.invoke(ctx)
+  File "C:\Users\qinan\AppData\Local\Programs\Python\Python39\lib\site-packages\discord\ext\commands\core.py", line 1023, in invoke
+    await injected(*ctx.args, **ctx.kwargs)  # type: ignore
+  File "C:\Users\qinan\AppData\Local\Programs\Python\Python39\lib\site-packages\discord\ext\commands\core.py", line 229, in wrapped
+    ret = await coro(*args, **kwargs)
+  File "C:\Users\qinan\OneDrive\Desktop\COEN\COEN291\bot\main.py", line 99, in joke
+    Wallpaper.get_wallpaper(joke, "images")
+  File "C:\Users\qinan\OneDrive\Desktop\COEN\COEN291\bot\Wallpaper.py", line 56, in get_wallpaper
+    get_img_from_stability(quote)
+  File "C:\Users\qinan\OneDrive\Desktop\COEN\COEN291\bot\Wallpaper.py", line 20, in get_img_from_stability
+    response = requests.post(
+  File "C:\Users\qinan\AppData\Local\Programs\Python\Python39\lib\site-packages\requests\api.py", line 115, in post
+    return request("post", url, data=data, json=json, **kwargs)
+  File "C:\Users\qinan\AppData\Local\Programs\Python\Python39\lib\site-packages\requests\api.py", line 59, in request
+    return session.request(method=method, url=url, **kwargs)
+  File "C:\Users\qinan\AppData\Local\Programs\Python\Python39\lib\site-packages\requests\sessions.py", line 587, in request
+    resp = self.send(prep, **send_kwargs)
+  File "C:\Users\qinan\AppData\Local\Programs\Python\Python39\lib\site-packages\requests\sessions.py", line 701, in send
+    r = adapter.send(request, **kwargs)
+  File "C:\Users\qinan\AppData\Local\Programs\Python\Python39\lib\site-packages\requests\adapters.py", line 489, in send
+    resp = conn.urlopen(
+  File "C:\Users\qinan\AppData\Local\Programs\Python\Python39\lib\site-packages\urllib3\connectionpool.py", line 703, in urlopen
+    httplib_response = self._make_request(
+  File "C:\Users\qinan\AppData\Local\Programs\Python\Python39\lib\site-packages\urllib3\connectionpool.py", line 444, in _make_request
+    httplib_response = conn.getresponse()
+  File "C:\Users\qinan\AppData\Local\Programs\Python\Python39\lib\http\client.py", line 1377, in getresponse
+    response.begin()
+  File "C:\Users\qinan\AppData\Local\Programs\Python\Python39\lib\http\client.py", line 320, in begin
+    version, status, reason = self._read_status()
+  File "C:\Users\qinan\AppData\Local\Programs\Python\Python39\lib\http\client.py", line 281, in _read_status
+    line = str(self.fp.readline(_MAXLINE + 1), "iso-8859-1")
+  File "C:\Users\qinan\AppData\Local\Programs\Python\Python39\lib\socket.py", line 704, in readinto
+    return self._sock.recv_into(b)
+  File "C:\Users\qinan\AppData\Local\Programs\Python\Python39\lib\ssl.py", line 1241, in recv_into
+    return self.read(nbytes, buffer)
+  File "C:\Users\qinan\AppData\Local\Programs\Python\Python39\lib\ssl.py", line 1099, in read
+    return self._sslobj.read(len, buffer)
+
+WARNING    - 2023-05-16 18:02:15,628 - gateway         : Shard ID None heartbeat blocked for more than 20 seconds.
+Loop thread traceback (most recent call last):
+  File "C:\Users\qinan\OneDrive\Desktop\COEN\COEN291\bot\main.py", line 112, in <module>
+    run_bot(dc_token)
+  File "C:\Users\qinan\OneDrive\Desktop\COEN\COEN291\bot\main.py", line 109, in run_bot
+    bot.run(token = token, root_logger=True)
+  File "C:\Users\qinan\AppData\Local\Programs\Python\Python39\lib\site-packages\discord\client.py", line 860, in run
+    asyncio.run(runner())
+  File "C:\Users\qinan\AppData\Local\Programs\Python\Python39\lib\asyncio\runners.py", line 44, in run
+    return loop.run_until_complete(main)
+  File "C:\Users\qinan\AppData\Local\Programs\Python\Python39\lib\asyncio\base_events.py", line 634, in run_until_complete
+    self.run_forever()
+  File "C:\Users\qinan\AppData\Local\Programs\Python\Python39\lib\asyncio\windows_events.py", line 321, in run_forever
+    super().run_forever()
+  File "C:\Users\qinan\AppData\Local\Programs\Python\Python39\lib\asyncio\base_events.py", line 601, in run_forever
+    self._run_once()
+  File "C:\Users\qinan\AppData\Local\Programs\Python\Python39\lib\asyncio\base_events.py", line 1905, in _run_once
+    handle._run()
+  File "C:\Users\qinan\AppData\Local\Programs\Python\Python39\lib\asyncio\events.py", line 80, in _run
+    self._context.run(self._callback, *self._args)
+  File "C:\Users\qinan\AppData\Local\Programs\Python\Python39\lib\site-packages\discord\client.py", line 441, in _run_event
+    await coro(*args, **kwargs)
+  File "C:\Users\qinan\AppData\Local\Programs\Python\Python39\lib\site-packages\discord\ext\commands\bot.py", line 1395, in on_message
+    await self.process_commands(message)
+  File "C:\Users\qinan\AppData\Local\Programs\Python\Python39\lib\site-packages\discord\ext\commands\bot.py", line 1392, in process_commands
+    await self.invoke(ctx)  # type: ignore
+  File "C:\Users\qinan\AppData\Local\Programs\Python\Python39\lib\site-packages\discord\ext\commands\bot.py", line 1350, in invoke
+    await ctx.command.invoke(ctx)
+  File "C:\Users\qinan\AppData\Local\Programs\Python\Python39\lib\site-packages\discord\ext\commands\core.py", line 1023, in invoke
+    await injected(*ctx.args, **ctx.kwargs)  # type: ignore
+  File "C:\Users\qinan\AppData\Local\Programs\Python\Python39\lib\site-packages\discord\ext\commands\core.py", line 229, in wrapped
+    ret = await coro(*args, **kwargs)
+  File "C:\Users\qinan\OneDrive\Desktop\COEN\COEN291\bot\main.py", line 99, in joke
+    Wallpaper.get_wallpaper(joke, "images")
+  File "C:\Users\qinan\OneDrive\Desktop\COEN\COEN291\bot\Wallpaper.py", line 56, in get_wallpaper
+    get_img_from_stability(quote)
+  File "C:\Users\qinan\OneDrive\Desktop\COEN\COEN291\bot\Wallpaper.py", line 20, in get_img_from_stability
+    response = requests.post(
+  File "C:\Users\qinan\AppData\Local\Programs\Python\Python39\lib\site-packages\requests\api.py", line 115, in post
+    return request("post", url, data=data, json=json, **kwargs)
+  File "C:\Users\qinan\AppData\Local\Programs\Python\Python39\lib\site-packages\requests\api.py", line 59, in request
+    return session.request(method=method, url=url, **kwargs)
+  File "C:\Users\qinan\AppData\Local\Programs\Python\Python39\lib\site-packages\requests\sessions.py", line 587, in request
+    resp = self.send(prep, **send_kwargs)
+  File "C:\Users\qinan\AppData\Local\Programs\Python\Python39\lib\site-packages\requests\sessions.py", line 701, in send
+    r = adapter.send(request, **kwargs)
+  File "C:\Users\qinan\AppData\Local\Programs\Python\Python39\lib\site-packages\requests\adapters.py", line 489, in send
+    resp = conn.urlopen(
+  File "C:\Users\qinan\AppData\Local\Programs\Python\Python39\lib\site-packages\urllib3\connectionpool.py", line 703, in urlopen
+    httplib_response = self._make_request(
+  File "C:\Users\qinan\AppData\Local\Programs\Python\Python39\lib\site-packages\urllib3\connectionpool.py", line 444, in _make_request
+    httplib_response = conn.getresponse()
+  File "C:\Users\qinan\AppData\Local\Programs\Python\Python39\lib\http\client.py", line 1377, in getresponse
+    response.begin()
+  File "C:\Users\qinan\AppData\Local\Programs\Python\Python39\lib\http\client.py", line 320, in begin
+    version, status, reason = self._read_status()
+  File "C:\Users\qinan\AppData\Local\Programs\Python\Python39\lib\http\client.py", line 281, in _read_status
+    line = str(self.fp.readline(_MAXLINE + 1), "iso-8859-1")
+  File "C:\Users\qinan\AppData\Local\Programs\Python\Python39\lib\socket.py", line 704, in readinto
+    return self._sock.recv_into(b)
+  File "C:\Users\qinan\AppData\Local\Programs\Python\Python39\lib\ssl.py", line 1241, in recv_into
+    return self.read(nbytes, buffer)
+  File "C:\Users\qinan\AppData\Local\Programs\Python\Python39\lib\ssl.py", line 1099, in read
+    return self._sslobj.read(len, buffer)
+
+ERROR      - 2023-05-16 18:02:24,725 - client          : Attempting a reconnect in 0.91s
+Traceback (most recent call last):
+  File "C:\Users\qinan\AppData\Local\Programs\Python\Python39\lib\site-packages\discord\client.py", line 659, in connect
+    await self.ws.poll_event()
+  File "C:\Users\qinan\AppData\Local\Programs\Python\Python39\lib\site-packages\discord\gateway.py", line 646, in poll_event
+    raise ConnectionClosed(self.socket, shard_id=self.shard_id, code=code) from None
+discord.errors.ConnectionClosed: Shard ID None WebSocket closed with 1000
+INFO       - 2023-05-16 18:02:25,879 - gateway         : Shard ID None has successfully RESUMED session 2421a92db8aa1a88c29937067207fdef.

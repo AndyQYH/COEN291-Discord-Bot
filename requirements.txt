@@ -1,0 +1,10 @@
+logging
+python-dotenv
+markovify
+requests_oauthlib
+credentials
+flask
+openai
+discord
+settings
+praw
