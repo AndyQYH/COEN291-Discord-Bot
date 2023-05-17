@@ -1,5 +1,8 @@
+from typing import Any
+from discord.interactions import Interaction
 from discord.ui import Button, View
 import discord
+from discord.ui.item import Item
 import jokes
 import Wallpaper
 import os
@@ -17,16 +20,16 @@ class MyButton(Button):
         self.disabled = False
         
 class MyView(View):
-    def __init__(self, ctx):
-        super().__init__(timeout = 20)
+    def __init__(self, ctx, timeout = 20 ):
+        super().__init__(timeout = timeout)
         self.ctx = ctx
         
     @discord.ui.button(label = "random jokes", style=discord.ButtonStyle.green, emoji="😋")
-    async def button_callback(self, button: discord.Button, interaction: discord.Interaction ):
-        button.disable = True
+    async def button_callback(self, interaction: discord.Interaction, button: discord.Button):
+        button.disabled = True
         await interaction.response.send_message("so you choose " + button.label + " !")
         # SENDS A MESSAGE TO THE CHANNEL USING THE CONTEXT OBJECT.
-        
+        await joke_to_dc(self.ctx, jokeList)
             
     
     @discord.ui.button(label = "dad jokes", style=discord.ButtonStyle.blurple, emoji="😎")
@@ -41,7 +44,18 @@ class MyView(View):
     @discord.ui.button(label = "long jokes", style=discord.ButtonStyle.secondary, emoji="😯")
     async def button5_callback(self, button: discord.Button, interaction: discord.Interaction ):
         await interaction.response.send_message("so you choose " + button.label + " !")
+        
+    async def disable_all_items(self):
+        for item in self.children:
+            item.disabled = True
+        await self.message.edit(view = self)
+        
+    async def on_timeout(self):
+        await self.ctx.send("Timeout!")
+        await self.disable_all_items()
 
+    async def on_error(self, interaction, error, item):
+        await interaction.response.send_message(str(error))
     
     
 async def joke_to_dc(ctx, jokeList):
