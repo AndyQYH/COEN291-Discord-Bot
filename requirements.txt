@@ -6,5 +6,6 @@ credentials
 flask
 openai
 discord
-settings
 praw
+opencv-python
+pycord

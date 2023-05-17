@@ -1,19 +1,22 @@
 # IMPORT DISCORD.PY. ALLOWS ACCESS TO DISCORD'S API.
 import discord
+from discord.ui import Button, View
 from discord.ext import commands
 import os
 from dotenv import load_dotenv
 import jokes
 import Wallpaper
 import settings
+import copy
+from dc_mod import MyView
 
 load_dotenv()
 dc_token = os.getenv("DISCORD_TOKEN")
 dc_secret = os.getenv("DISCORD_SECRET")
 logger = settings.logging.getLogger("bot")
-jokeList = jokes.get_jokes_raw()
-jokeList = jokes.joke_preprocess(jokeList)
-jokeList = jokes.joke_generate(jokeList)
+#jokeList = jokes.get_jokes_raw()
+#jokeList = jokes.joke_preprocess(jokeList)
+#jokeList = jokes.joke_generate(jokeList)
 
 
 def run_bot(token):
@@ -89,20 +92,11 @@ def run_bot(token):
         brief="Randomly generates a joke that can either be super good or super bad."
     )   
     async def joke(ctx):
+        # given users some choices to choose from joke categories
+        
         # SENDS A MESSAGE TO THE CHANNEL USING THE CONTEXT OBJECT.
-        joke_imgs = []
-        joke = jokes.joke_normalize_GPT(jokeList)
-        await ctx.channel.send(joke)
-        if len(joke.split(":")) > 1:
-            joke = "".join(joke.split(":")[1:])
-        joke = "\"" + joke.replace('"', '') + "\""
-        Wallpaper.get_wallpaper(joke, "images")
-        #await ctx.channel.send(os.listdir(os.getcwd() +"/images"))
-        for file in os.listdir(os.getcwd() +"/images"):
-            if file == "created_image.png":
-                new_file = discord.File("images/" + file)
-                joke_imgs.append(new_file)
-        await ctx.channel.send(files = joke_imgs)
+        new_view = MyView(ctx)
+        await ctx.send("Make a Choice", view = new_view)
     
     # EXECUTES THE BOT WITH THE SPECIFIED TOKEN. TOKEN HAS BEEN REMOVED AND USED JUST AS AN EXAMPLE.
 

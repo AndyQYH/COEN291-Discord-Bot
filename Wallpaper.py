@@ -5,6 +5,7 @@ import numpy as np
 import os
 import requests
 import base64
+import cv2
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -58,25 +59,34 @@ def get_wallpaper(quote, image_path = ''):
     rand2 = random.randint(5,255)
     rand3 = random.randint(5,255)
     image = Image.open(image_path + '/' + "imageToSave.png")
+    image_array = np.array(image, dtype=np.uint8)
+    print(image_array.shape)
     image.putalpha(128)
     image = image.filter(ImageFilter.GaussianBlur(2))
     font = ImageFont.truetype("Quicksand/static/Quicksand-Bold.ttf", 36)
     text1 = quote
     text_color = (rand1,rand2,rand3)
     text_start_height = 50
-    draw_text_on_image(image, text1, font, text_color, text_start_height)
+    draw_text_on_image(image, image_array, text1, font, text_color, text_start_height)
     if image_path != '':
         image.save(image_path + '/' + 'created_image.png')
     else:
         image.save('created_image.png')
 
-def draw_text_on_image(image, text, font, text_color, text_start_height):
+def draw_text_on_image(image, image_arr, text, font, text_color, text_start_height):
     draw = ImageDraw.Draw(image)
     image_width, image_height = image.size
     y_text = text_start_height
-    lines = textwrap.wrap(text, width=30)
+    lines = textwrap.wrap(text, width=35)
     for line in lines:
+        #print(type(line))
         line_width, line_height = font.getsize(line)
+        if len(lines) * line_height >= image_height:
+            font.size = np.floor(image_height /  len(lines))
+            line_width, line_height = font.getsize(line)
+        pixels = image_arr[y_text:y_text+line_height][:]
+        print(type(pixels))
+        print(pixels.shape)
         draw.text(((image_width - line_width) / 2, y_text),line, font=font, fill=text_color)
         y_text += line_height
         
