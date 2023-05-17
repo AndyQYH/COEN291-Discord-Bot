@@ -1,6 +1,5 @@
 # IMPORT DISCORD.PY. ALLOWS ACCESS TO DISCORD'S API.
 import discord
-from discord.ui import Button, View
 from discord.ext import commands
 import os
 from dotenv import load_dotenv
@@ -95,14 +94,14 @@ def run_bot(token):
         # given users some choices to choose from joke categories
         
         # SENDS A MESSAGE TO THE CHANNEL USING THE CONTEXT OBJECT.
-        new_view = MyView(ctx, timeout = 10)
+        new_view = MyView(ctx, timeout = 50)
         await ctx.send("Make a Choice", view = new_view)
         
         await new_view.wait()
         await new_view.disable_all_items()
     # EXECUTES THE BOT WITH THE SPECIFIED TOKEN. TOKEN HAS BEEN REMOVED AND USED JUST AS AN EXAMPLE.
 
-    bot.run(token = token, root_logger=True)
+    bot.run(token = token)
 
 if __name__ == "__main__":
     run_bot(dc_token)

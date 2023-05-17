@@ -7,7 +7,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-def get_jokes_raw(file = 'all_jokes.txt', path = ""):
+def get_jokes_raw(file = 'all_jokes.txt', path = "jokes/"):
     ### LOADING JOKES INTO LIST
     jokeList = []
     full_path = file
@@ -89,7 +89,7 @@ def joke_generate(jokeList):
             
     return generated_jokes
 
-def joke_normalize_GPT(generated_jokes):
+def joke_normalize_GPT(generated_jokes, model_name = "gpt-3.5-turbo", prompt = ""):
     openai.api_key = os.getenv('OPENAI_API')
 
     messages = [ {"role": "system", "content": "You are an intelligent assistant and funny."} ]
@@ -98,13 +98,16 @@ def joke_normalize_GPT(generated_jokes):
     print("\n")
 
     message = "Here is a joke: {joke} \n Can you rewrite this joke to be funnier? I want the rewritten joke to have a similar number of words to the original joke.  \n".format(joke = random_joke)
+    if prompt != "":
+        #message = prompt.format(joke = random_joke)
+        return random_joke
     print(message)
     messages.append(
         {"role": "user", "content": message},
     )
     chat = openai.ChatCompletion.create(
-        model="gpt-3.5-turbo", messages=messages
-        )
+        model= model_name, messages=messages
+    )
     reply = chat.choices[0].message.content
     print(f"ChatGPT: {reply}")
     return reply

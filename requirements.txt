@@ -5,7 +5,6 @@ requests_oauthlib
 credentials
 flask
 openai
-discord
 praw
 opencv-python
-pycord
+py-cord >= 2.4.1
