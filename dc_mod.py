@@ -22,28 +22,38 @@ class MyView(View):
         self.ctx = ctx
         
     @discord.ui.button(label = "random jokes", style=discord.ButtonStyle.green, emoji="😋")
-    async def button_callback(self, button, interaction):
+    async def button_callback(self, button: discord.Button, interaction: discord.Interaction ):
         button.disable = True
-        await interaction.followup.send("so you choose " + button.label + "!")
+        await interaction.response.send_message("so you choose " + button.label + " !")
         # SENDS A MESSAGE TO THE CHANNEL USING THE CONTEXT OBJECT.
-        joke_imgs = []
-        joke = jokes.joke_normalize_GPT(jokeList)
-        await self.ctx.channel.send(joke)
-        if len(joke.split(":")) > 1:
-            joke = "".join(joke.split(":")[1:])
-        joke = "\"" + joke.replace('"', '') + "\""
-        Wallpaper.get_wallpaper(joke, "images")
-        #await ctx.channel.send(os.listdir(os.getcwd() +"/images"))
-        for file in os.listdir(os.getcwd() +"/images"):
-            new_file = discord.File("images/" + file)
-            joke_imgs.append(new_file)
-            await self.ctx.channel.send(file = new_file)
-    '''
-    @MyButton(label = "dad jokes", style=discord.ButtonStyle.blurple, emoji="😎")
-    async def callback(self, interaction):
-    @MyButton(label = "anti jokes", style=discord.ButtonStyle.primary, emoji="🤪")
-    async def callback(self, interaction):
-    @MyButton(label = "dirty jokes", style=discord.ButtonStyle.gray, emoji="😍")
-    async def callback(self, interaction):
-    @MyButton(label = "long jokes", style=discord.ButtonStyle.secondary, emoji="😯")
-    '''
+        
+            
+    
+    @discord.ui.button(label = "dad jokes", style=discord.ButtonStyle.blurple, emoji="😎")
+    async def button2_callback(self, button: discord.Button, interaction: discord.Interaction ):
+        await interaction.response.send_message("so you choose " + button.label + " !")
+    @discord.ui.button(label = "anti jokes", style=discord.ButtonStyle.primary, emoji="🤪")
+    async def button3_callback(self, button: discord.Button, interaction: discord.Interaction ):
+        await interaction.response.send_message("so you choose " + button.label + " !")
+    @discord.ui.button(label = "dirty jokes", style=discord.ButtonStyle.gray, emoji="😍")
+    async def button4_callback(self, button: discord.Button, interaction: discord.Interaction ):
+        await interaction.response.send_message("so you choose " + button.label + " !")
+    @discord.ui.button(label = "long jokes", style=discord.ButtonStyle.secondary, emoji="😯")
+    async def button5_callback(self, button: discord.Button, interaction: discord.Interaction ):
+        await interaction.response.send_message("so you choose " + button.label + " !")
+
+    
+    
+async def joke_to_dc(ctx, jokeList):
+    joke_imgs = []
+    joke = jokes.joke_normalize_GPT(jokeList)
+    await ctx.channel.send(joke)
+    if len(joke.split(":")) > 1:
+        joke = "".join(joke.split(":")[1:])
+    joke = "\"" + joke.replace('"', '') + "\""
+    Wallpaper.get_wallpaper(joke, "images")
+    #await ctx.channel.send(os.listdir(os.getcwd() +"/images"))
+    for file in os.listdir(os.getcwd() +"/images"):
+        new_file = discord.File("images/" + file)
+        joke_imgs.append(new_file)
+        await ctx.channel.send(file = new_file)
