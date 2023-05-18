@@ -98,6 +98,9 @@ def run_bot(token):
         
         await new_view.wait()
         await new_view.disable_all_items()
+        
+        new_view = MyView(ctx, timeout = 100)
+        await ctx.send("Make a Choice", view = new_view)
     # EXECUTES THE BOT WITH THE SPECIFIED TOKEN. TOKEN HAS BEEN REMOVED AND USED JUST AS AN EXAMPLE.
 
     bot.run(token = token)
