@@ -6,14 +6,21 @@ import os
 import requests
 import base64
 import cv2
+import replicate
+import urllib.request
 from dotenv import load_dotenv
 
 load_dotenv()
+height = 512
+width =768
+steps = 70
 
-def get_img_from_stability(quote):
-    engine_id = "stable-diffusion-xl-beta-v2-2-2"
+def get_img_from_stability(quote, model = "stable-diffusion-xl-beta-v2-2-2"):
+    engine_id =  model
     api_host = os.getenv('API_HOST', 'https://api.stability.ai')
     api_key = os.getenv("STABILITY_API_KEY")
+    
+    print("generating from stability AI ...")
 
     if api_key is None:
         raise Exception("Missing Stability API key.")
@@ -34,10 +41,10 @@ def get_img_from_stability(quote):
             "cfg_scale": 35,
             "clip_guidance_preset": "FAST_BLUE",
             "sampler":"K_EULER",
-            "height": 384,
-            "width": 704,
+            "height": height,
+            "width": width,
             "samples": 1,
-            "steps": 70,
+            "steps": steps,
         },
     )
 
@@ -51,10 +58,31 @@ def get_img_from_stability(quote):
 
     with open("images/imageToSave.png", "wb") as fh:
         fh.write(img_data)
-
-def get_wallpaper(quote, image_path = ''):
+        
+def download_image(url, file_path, file_name):
+    full_path = file_path + file_name + '.png'
+    urllib.request.urlretrieve(url, full_path)
+        
+def get_img_from_prompt_hero(quote ="hello world!", model = "prompthero/openjourney:9936c2001faa2194a261c01381f90e65261879985476014a0a37a334593a05eb"):
+    print("generating from open journey ...")
+    
+    output = replicate.run(
+    model_version = model,
+    input={"prompt": quote, 
+           "width": width,
+           "height": height,
+           "num_inference_steps": 50}
+    )
+    print(output)
+    return output[0]
+    
+def get_wallpaper(quote, prompt,  image_path = '', source = 'stability'):
     # image_width
-    get_img_from_stability(quote)
+    if source == 'stability':
+        get_img_from_stability(quote = prompt)
+    else:
+        image_url = get_img_from_prompt_hero(quote = prompt)
+        download_image(image_url, 'images/', "imageToSave")
     rand1 = random.randint(5,255)
     rand2 = random.randint(5,255)
     rand3 = random.randint(5,255)
@@ -90,3 +118,6 @@ def draw_text_on_image(image, image_arr, text, font, text_color, text_start_heig
         draw.text(((image_width - line_width) / 2, y_text),line, font=font, fill=text_color)
         y_text += line_height
         
+#image_url = get_img_from_prompt_hero(quote = "an anime girl with cat ear")
+#download_image(image_url, 'images/', "imageToSave")
+#get_img_from_stability(quote = "What did the German wine say when it rode a motorcycle? \"I can't handle this much horsepower!\"")

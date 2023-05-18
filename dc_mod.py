@@ -5,6 +5,7 @@ import jokes
 import Wallpaper
 import os
 
+
 joke_path = "jokes/"
 
 class MyButton(Button):
@@ -40,12 +41,15 @@ class MyView(View):
         # SENDS A MESSAGE TO THE CHANNEL USING THE CONTEXT OBJECT.
         await joke_to_dc(self.ctx, file = "antijokes.txt")
         self.stop()
+
+    '''
     @discord.ui.button(label = "dirty jokes", style=discord.ButtonStyle.gray, emoji="😍")
     async def button4_callback(self,  button: discord.Button, interaction: discord.Interaction):
         await interaction.response.send_message("so you choose " + button.label + " !")
         # SENDS A MESSAGE TO THE CHANNEL USING THE CONTEXT OBJECT.
         await joke_to_dc(self.ctx, file = "dirtyjokes.txt")
         self.stop()
+    '''
     @discord.ui.button(label = "long jokes", style=discord.ButtonStyle.secondary, emoji="😯")
     async def button5_callback(self,  button: discord.Button, interaction: discord.Interaction):
         await interaction.response.send_message("so you choose " + button.label + " !")
@@ -76,13 +80,23 @@ async def joke_to_dc(ctx, file = "all_jokes.txt", path = joke_path):
         joke = jokes.joke_normalize_GPT(jokeList, prompt = "Here is a joke: {joke} \n Can you modify this joke to be appropriate? I want the rewritten joke to have a similar number of words to the original joke.  \n")
     else:
         joke = jokes.joke_normalize_GPT(jokeList)
+        
     await ctx.channel.send(joke)
+    joke_prompt = jokes.joke_prompitize_GPT(joke)
+    await ctx.channel.send(joke_prompt)
     if len(joke.split(":")) > 1:
         joke = "".join(joke.split(":")[1:])
     joke = "\"" + joke.replace('"', '') + "\""
-    Wallpaper.get_wallpaper(joke, "images")
+    Wallpaper.get_wallpaper(quote = joke, prompt = joke_prompt, image_path = "images", source = "prompthero")
     #await ctx.channel.send(os.listdir(os.getcwd() +"/images"))
     for file in os.listdir(os.getcwd() +"/images"):
         new_file = discord.File("images/" + file)
         joke_imgs.append(new_file)
         await ctx.channel.send(file = new_file)
+    Wallpaper.get_wallpaper(quote = joke, prompt = joke_prompt, image_path = "images")
+    for file in os.listdir(os.getcwd() +"/images"):
+        new_file = discord.File("images/" + file)
+        joke_imgs.append(new_file)
+        await ctx.channel.send(file = new_file)
+    
+    

@@ -112,6 +112,24 @@ def joke_normalize_GPT(generated_jokes, model_name = "gpt-3.5-turbo", prompt = "
     print(f"ChatGPT: {reply}")
     return reply
 
+def joke_prompitize_GPT(generated_joke, model_name = "gpt-3.5-turbo", prompt = ""):
+    openai.api_key = os.getenv('OPENAI_API')
+
+    messages = [ {"role": "system", "content": "You are an intelligent assistant and funny."} ]
+    
+
+    message = "\nTurn this joke into a prompt for Art Generation: \n\n {joke} \n\n the art style can be chosen from realistic, cartoon, or animated\n".format(joke = generated_joke)
+    print(message)
+    messages.append(
+        {"role": "user", "content": message},
+    )
+    chat = openai.ChatCompletion.create(
+        model= model_name, messages=messages
+    )
+    reply = chat.choices[0].message.content
+    print(f"ChatGPT: {reply}")
+    return reply
+
 
 def generate_reddit_jokes(subReddit, txtFile):
     # Read-only instance

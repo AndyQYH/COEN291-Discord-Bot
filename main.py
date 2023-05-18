@@ -6,7 +6,6 @@ from dotenv import load_dotenv
 import jokes
 import Wallpaper
 import settings
-import copy
 from dc_mod import MyView
 
 load_dotenv()
@@ -94,7 +93,7 @@ def run_bot(token):
         # given users some choices to choose from joke categories
         
         # SENDS A MESSAGE TO THE CHANNEL USING THE CONTEXT OBJECT.
-        new_view = MyView(ctx, timeout = 50)
+        new_view = MyView(ctx, timeout = 100)
         await ctx.send("Make a Choice", view = new_view)
         
         await new_view.wait()

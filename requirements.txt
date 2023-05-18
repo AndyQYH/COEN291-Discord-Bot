@@ -7,4 +7,5 @@ flask
 openai
 praw
 opencv-python
+replicate
 py-cord >= 2.4.1
