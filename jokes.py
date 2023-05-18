@@ -118,7 +118,7 @@ def joke_prompitize_GPT(generated_joke, model_name = "gpt-3.5-turbo", prompt = "
     messages = [ {"role": "system", "content": "You are an intelligent assistant and funny."} ]
     
 
-    message = "\nTurn this joke into a prompt for Art Generation: \n\n {joke} \n\n the art style can be chosen from realistic, cartoon, or animated\n".format(joke = generated_joke)
+    message = "\nTurn this joke into a prompt for Art Generation: \n\n {joke} \n\n the art style can be chosen from realistic, cartoon, or animated, and make sure to capture the details in the joke\n".format(joke = generated_joke)
     print(message)
     messages.append(
         {"role": "user", "content": message},
