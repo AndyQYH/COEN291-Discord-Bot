@@ -14,6 +14,7 @@ load_dotenv()
 height = 512
 width =768
 steps = 70
+seed = 62800
 
 def get_img_from_stability(quote, model = "stable-diffusion-xl-beta-v2-2-2"):
     engine_id =  model
@@ -66,22 +67,34 @@ def download_image(url, file_path, file_name):
 def get_img_from_prompt_hero(quote ="hello world!", model = "prompthero/openjourney:9936c2001faa2194a261c01381f90e65261879985476014a0a37a334593a05eb"):
     print("generating from open journey ...")
     
-    output = replicate.run(
-    model_version = model,
-    input={"prompt": quote, 
-           "width": width,
-           "height": height,
-           "num_inference_steps": 50}
-    )
+    if model == "prompthero/openjourney-v4:e8818682e72a8b25895c7d90e889b712b6edfc5151f145e3606f21c1e85c65bf":
+        output = replicate.run(
+            model_version = model,
+            input={"prompt": quote, 
+                    "width": width,
+                    "height": height,
+                    "num_inference_steps": 50,
+                    "seed": seed, 
+                    "guidance_scale": 8}
+        )
+    else:
+        output = replicate.run(
+        model_version = model,
+        input={"prompt": quote, 
+            "width": width,
+            "height": height,
+            "num_inference_steps": 50,
+            "guidance_scale": 8}
+        )
     print(output)
     return output[0]
     
-def get_wallpaper(quote, prompt,  image_path = '', source = 'stability'):
+def get_wallpaper(quote, prompt,  image_path = '', source = 'Stability.ai Stable Diffusion SD XL', model_stable = "stable-diffusion-xl-beta-v2-2-2", model_hero = "prompthero/openjourney:9936c2001faa2194a261c01381f90e65261879985476014a0a37a334593a05eb"):
     # image_width
-    if source == 'stability':
-        get_img_from_stability(quote = prompt)
+    if source == 'Stability.ai Stable Diffusion SD XL':
+        get_img_from_stability(quote = prompt, model=model_stable)
     else:
-        image_url = get_img_from_prompt_hero(quote = prompt)
+        image_url = get_img_from_prompt_hero(quote = prompt, model=model_hero)
         download_image(image_url, 'images/', "imageToSave")
     rand1 = random.randint(5,255)
     rand2 = random.randint(5,255)

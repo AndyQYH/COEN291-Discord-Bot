@@ -17,12 +17,13 @@ logger = settings.logging.getLogger("bot")
 #jokeList = jokes.joke_generate(jokeList)
 
 
+
 def run_bot(token):
     # GETS THE CLIENT OBJECT FROM DISCORD.PY. CLIENT IS SYNONYMOUS WITH BOT.
     intents = discord.Intents.default()
     intents.message_content = True
-    bot = commands.Bot(command_prefix="!", intents = intents)
-
+    bot = commands.Bot(command_prefix='!', intents = intents)
+    
 
     # EVENT LISTENER FOR WHEN THE BOT HAS SWITCHED FROM OFFLINE TO ONLINE.
     @bot.event
@@ -31,6 +32,8 @@ def run_bot(token):
         #print(f'Bot connected as {bot.user}')
         
         logger.info(f"User: {bot.user} (ID: {bot.user.id})")
+        await bot.sync_commands()
+        
         #print("____________________")
         
         
@@ -58,10 +61,10 @@ def run_bot(token):
         # ADDS THIS VALUE TO THE !HELP MESSAGE.
         brief="Prints pong back to the channel."
     )
-    async def ping(ctx):
+    async def ping(ctx:commands.Context):
         # SENDS A MESSAGE TO THE CHANNEL USING THE CONTEXT OBJECT.
-        print(type(ctx))
-        await ctx.channel.send("pong")
+        
+        await ctx.channel.send("pong " + ctx.author.name)
 
     # COMMAND !PRINT. THIS TAKES IN A LIST OF ARGUMENTS FROM THE USER AND SIMPLY PRINTS THE VALUES BACK TO THE CHANNEL.
     @bot.command(
@@ -72,7 +75,7 @@ def run_bot(token):
         # ADDS THIS VALUE TO THE !HELP MESSAGE.
         brief="Prints the list of values back to the channel."
     )
-    async def print(ctx, *args):
+    async def print(ctx:commands.Context, *args):
         response = ""
 
         # LOOPS THROUGH THE LIST OF ARGUMENTS THAT THE USER INPUTS.
@@ -83,24 +86,22 @@ def run_bot(token):
         await ctx.channel.send(response)
         
     # COMMAND !joke. THIS TAKES IN A LIST OF ARGUMENTS FROM THE USER AND SIMPLY PRINTS THE VALUES BACK TO THE CHANNEL.
-    @bot.command(
+    @bot.slash_command(
         # ADDS THIS VALUE TO THE !HELP PRINT MESSAGE.
-        help="Looks like you need some help ON JOKING AROUND.",
-        # ADDS THIS VALUE TO THE !HELP MESSAGE.
-        brief="Randomly generates a joke that can either be super good or super bad."
+        description="Looks like you need some help ON JOKING AROUND.",
+        
+       
     )   
-    async def joke(ctx):
+    async def joke(ctx:commands.Context):
         # given users some choices to choose from joke categories
         
         # SENDS A MESSAGE TO THE CHANNEL USING THE CONTEXT OBJECT.
         new_view = MyView(ctx, timeout = 100)
-        await ctx.send("Make a Choice", view = new_view)
+        await ctx.respond("Make a Choice", view = new_view)
         
         await new_view.wait()
         await new_view.disable_all_items()
         
-        new_view = MyView(ctx, timeout = 100)
-        await ctx.send("Make a Choice", view = new_view)
     # EXECUTES THE BOT WITH THE SPECIFIED TOKEN. TOKEN HAS BEEN REMOVED AND USED JUST AS AN EXAMPLE.
 
     bot.run(token = token)

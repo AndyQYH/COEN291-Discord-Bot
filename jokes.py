@@ -97,7 +97,7 @@ def joke_normalize_GPT(generated_jokes, model_name = "gpt-3.5-turbo", prompt = "
     print(random_joke)
     print("\n")
 
-    message = "Here is a joke: {joke} \n Can you rewrite this joke to be funnier? I want the rewritten joke to have a similar number of words to the original joke.  \n".format(joke = random_joke)
+    message = "Here is a joke: {joke} .\n Rewrite this joke to be funnier. I want the rewritten joke to have a similar number of words to the original joke. The response have the original joke and the rewritten joke. \n".format(joke = random_joke)
     if prompt != "":
         #message = prompt.format(joke = random_joke)
         return random_joke
@@ -118,7 +118,7 @@ def joke_prompitize_GPT(generated_joke, model_name = "gpt-3.5-turbo", prompt = "
     messages = [ {"role": "system", "content": "You are an intelligent assistant and funny."} ]
     
 
-    message = "\nTurn this joke into a prompt for Art Generation: \n\n {joke} \n\n the art style can be chosen from realistic, cartoon, or animated, and make sure to capture the details in the joke\n".format(joke = generated_joke)
+    message = "\nTurn this joke into a prompt for Art Generation on {prompt}: \n\n {joke} \n\n the prompt should include \"animated digital art, beautiful composition, elaborate\". Make sure the prompt captures the details in the joke. Also make sure the prompt excludes bad anatomy, blurry layout, extra arms, extra fingers, poorly drawn hands, disfigured shape, tiling, deformation, and mutation in the art. \n\n The response should be the prompt only.".format(joke = generated_joke, prompt = prompt)
     print(message)
     messages.append(
         {"role": "user", "content": message},
