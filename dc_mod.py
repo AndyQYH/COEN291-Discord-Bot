@@ -27,8 +27,9 @@ class MyView(View):
         
         await interaction.response.send_message(content = "Here it is: \n\n")
         joke = joke_to_dc()
-        print("jokes: \n", joke.split('\n')[2])
-        await interaction.edit_original_response(content = "Here it is: \n\n" + joke + '\n', view = MyJokeView(self.ctx, joke))
+        joke_new = joke.split('\n')[2].split(':')[1]
+        print("jokes: \n", joke)
+        await interaction.edit_original_response(content = "Here it is: \n\n" + joke + '\n', view = MyJokeView(self.ctx, joke_new))
         # SENDS A MESSAGE TO THE CHANNEL USING THE CONTEXT OBJECT.
         
         self.stop()
