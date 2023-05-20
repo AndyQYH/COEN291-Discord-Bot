@@ -5,7 +5,7 @@ import numpy as np
 import os
 import requests
 import base64
-import cv2
+import colorsys
 import replicate
 import urllib.request
 from dotenv import load_dotenv
@@ -96,25 +96,40 @@ def get_wallpaper(quote, prompt,  image_path = '', source = 'Stability.ai Stable
     else:
         image_url = get_img_from_prompt_hero(quote = prompt, model=model_hero)
         download_image(image_url, 'images/', "imageToSave")
-    rand1 = random.randint(5,255)
-    rand2 = random.randint(5,255)
-    rand3 = random.randint(5,255)
+        
     image = Image.open(image_path + '/' + "imageToSave.png")
-    image_array = np.array(image, dtype=np.uint8)
-    print(image_array.shape)
+    image_array = np.asarray(image)
+    print('Complementing...')
+    lo = np.amin(image_array, axis=2, keepdims=True)
+    hi = np.amax(image_array, axis= (0,1))
+    print("high: \n", hi)
+    #image_array_comp = (lo + hi) - image_array
+    image_array_comp = 255 - image_array
+    out_img = Image.fromarray(image_array_comp)
+    out_img.putalpha(255)
     image.putalpha(128)
+   
+    #mask = Image.new(mode ='L',size = image.size, color = 0)
+    #h,s,l = random.random(), 0.5 + random.random()/2.0, 0.4 + random.random()/5.0
+    #r,g,b = [int(256*i) for i in colorsys.hls_to_rgb(h,l,s)]
     image = image.filter(ImageFilter.GaussianBlur(2))
     font = ImageFont.truetype("Quicksand/static/Quicksand-Bold.ttf", 36)
     text1 = quote
-    text_color = (rand1,rand2,rand3)
+    text_color = tuple(hi)
     text_start_height = 50
-    draw_text_on_image(image, image_array, text1, font, text_color, text_start_height)
+    draw_text_on_image(image, text1, font, text_color, text_start_height)
+    #image_comp = Image.composite(out_img, image, mask)
     if image_path != '':
+        out_img.save(image_path + '/' + 'created_image_2.png')
         image.save(image_path + '/' + 'created_image.png')
+        #image_comp.save(image_path + '/' + 'created_image.png')
     else:
+        out_img.save('created_image_2.png')
         image.save('created_image.png')
-
-def draw_text_on_image(image, image_arr, text, font, text_color, text_start_height):
+        #image_comp.save('created_image.png')
+    
+    
+def draw_text_on_image(image, text, font, text_color, text_start_height):
     draw = ImageDraw.Draw(image)
     image_width, image_height = image.size
     y_text = text_start_height
@@ -125,12 +140,13 @@ def draw_text_on_image(image, image_arr, text, font, text_color, text_start_heig
         if len(lines) * line_height >= image_height:
             font.size = np.floor(image_height /  len(lines))
             line_width, line_height = font.getsize(line)
-        pixels = image_arr[y_text:y_text+line_height][:]
-        print(type(pixels))
-        print(pixels.shape)
+       
         draw.text(((image_width - line_width) / 2, y_text),line, font=font, fill=text_color)
         y_text += line_height
         
+        
+   
+#get_wallpaper(quote = "Hello World!", prompt = "an anime girl with cat ear", image_path='images')     
 #image_url = get_img_from_prompt_hero(quote = "an anime girl with cat ear")
 #download_image(image_url, 'images/', "imageToSave")
 #get_img_from_stability(quote = "What did the German wine say when it rode a motorcycle? \"I can't handle this much horsepower!\"")

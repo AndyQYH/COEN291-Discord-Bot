@@ -22,28 +22,45 @@ class MyView(View):
         super().__init__(timeout = timeout)
         self.ctx = ctx
         
+        
     @discord.ui.button(label = "random jokes", style=discord.ButtonStyle.green, emoji="😋")
     async def button1_callback(self,  button: discord.Button, interaction: discord.Interaction):
         
         await interaction.response.send_message(content = "Here it is: \n\n")
+        for item in self.children:
+            if item != button:
+                item.disabled = True
+        await self.message.edit(view = self)
+        
         joke = joke_to_dc()
         joke_new = joke.split('\n')[2].split(':')[1]
         print("jokes: \n", joke_new)
-        await interaction.edit_original_response(content = "Here it is: \n\n" + joke + '\n', view = MyJokeView(self.ctx, joke = joke_new, genre=button.label))
-        # SENDS A MESSAGE TO THE CHANNEL USING THE CONTEXT OBJECT.
+        new_view = MyJokeView(self.ctx, joke = joke_new, genre=button.label)
+        await interaction.edit_original_response(content = "Here it is: \n\n" + joke + '\n', view = new_view)
         
+        
+        # SENDS A MESSAGE TO THE CHANNEL USING THE CONTEXT OBJECT.
         self.stop()
+        await new_view.wait()
     
     @discord.ui.button(label = "dad jokes", style=discord.ButtonStyle.blurple, emoji="😎")
     async def button2_callback(self,  button: discord.Button, interaction: discord.Interaction):
         await interaction.response.send_message(content = "Here it is: \n\n")
+        for item in self.children:
+            if item != button:
+                item.disabled = True
+        await self.message.edit(view = self)
+        
         joke = joke_to_dc(file="dadjokes.txt")
         joke_new = joke.split('\n')[2].split(':')[1]
         print("jokes: \n", joke_new)
-        await interaction.edit_original_response(content = "Here it is: \n\n" + joke + '\n', view = MyJokeView(self.ctx, joke = joke_new, genre=button.label))
+       
         # SENDS A MESSAGE TO THE CHANNEL USING THE CONTEXT OBJECT.
+        new_view = MyJokeView(self.ctx, joke = joke_new, genre=button.label)
+        await interaction.edit_original_response(content = "Here it is: \n\n" + joke + '\n', view = new_view)
         
         self.stop()
+        await new_view.wait()
 
     '''
     @discord.ui.button(label = "anti jokes", style=discord.ButtonStyle.primary, emoji="🤪")
@@ -69,12 +86,18 @@ class MyView(View):
         
         # SENDS A MESSAGE TO THE CHANNEL USING THE CONTEXT OBJECT.
         await interaction.response.send_message(content = "Here it is: \n\n")
+        for item in self.children:
+            if item != button:
+                item.disabled = True
+        await self.message.edit(view = self)
         joke = joke_to_dc(file="long_jokes.txt")
         joke_new = joke.split('\n')[2].split(':')[1]
         print("jokes: \n", joke_new)
-        await interaction.edit_original_response(content = "Here it is: \n\n" + joke + '\n', view = MyJokeView(self.ctx, joke = joke_new, genre=button.label))
+        new_view = MyJokeView(self.ctx, joke = joke_new, genre=button.label)
+        await interaction.edit_original_response(content = "Here it is: \n\n" + joke + '\n', view = new_view)
         
         self.stop()
+        await new_view.wait()
         
     async def disable_all_items(self):
         for item in self.children:
@@ -97,10 +120,18 @@ class MyJokeView(View):
         
     @discord.ui.button(label = "Go with this", style=discord.ButtonStyle.blurple, emoji="✅")
     async def buttonG_callback(self,  button: discord.Button, interaction: discord.Interaction):
-        await interaction.response.send_message("Cool let's generate an image for your joke next !", view = MySelectView(self.ctx, joke = self.joke))
+        new_view = MySelectView(self.ctx, joke = self.joke)
+        await interaction.response.send_message("Cool let's generate an image for your joke next !", view = new_view )
         # SENDS A MESSAGE TO THE CHANNEL USING THE CONTEXT OBJECT.
-        #await joke_to_dc(self.ctx)
+        
+        for item in self.children:
+            if item != button:
+                item.disabled = True
+        await self.message.edit(view = self)
+        
         self.stop()
+        await new_view.wait()
+        
     
     @discord.ui.button(label = "New One Please", style=discord.ButtonStyle.blurple, emoji="❌")
     async def buttonR_callback(self,  button: discord.Button, interaction: discord.Interaction):
@@ -108,6 +139,7 @@ class MyJokeView(View):
         # SENDS A MESSAGE TO THE CHANNEL USING THE CONTEXT OBJECT.
 
         await interaction.response.send_message(content = "Ok let's make a new " +  self.genre + "!")
+        
         joke = ""
         if self.genre == "random jokes":
             print("generating new random jokes ... ")
@@ -123,10 +155,15 @@ class MyJokeView(View):
             joke = joke_to_dc(file = "long_jokes.txt")
         joke_new = joke.split('\n')[2].split(':')[1]
         print("jokes: \n", joke_new)
-        await interaction.edit_original_response(content = "Here it a new " +  self.genre + ": \n\n" + joke + '\n', view = MyJokeView(self.ctx, joke = joke_new, genre = self.genre))
         
+        
+        
+        
+        new_view = MyJokeView(self.ctx, joke = joke_new, genre = self.genre)
+        await interaction.edit_original_response(content = "Here it a new " +  self.genre + ": \n\n" + joke + '\n', view = new_view)
         
         self.stop()
+        await new_view.wait()
     
         
     async def disable_all_items(self):
@@ -176,6 +213,9 @@ class MySelectView(View):
             
         new_view = MyView(self.ctx, timeout = 100)
         await self.ctx.channel.send(view = new_view)
+        
+        self.stop()
+        await new_view.wait()
     
 def joke_to_dc(file = "all_jokes.txt", path = joke_path) -> str:
     jokeList = jokes.get_jokes_raw(file, path)
@@ -197,9 +237,10 @@ async def joke_pic_to_dc(ctx, joke, pic_source = "Stability.ai Stable Diffusion 
 
     Wallpaper.get_wallpaper(quote = joke, prompt = joke_prompt, image_path = "images", source = pic_source)
     #await ctx.channel.send(os.listdir(os.getcwd() +"/images"))
-    for file in os.listdir(os.getcwd() +"/images"):
-        new_file = discord.File("images/" + file)
-        joke_imgs.append(new_file)
-        await ctx.channel.send(file = new_file)
+    for file in reversed(os.listdir(os.getcwd() +"/images")):
+        if file != "created_image_2.png":
+            new_file = discord.File("images/" + file)
+            joke_imgs.append(new_file)
+            await ctx.channel.send(file = new_file)
     
     
