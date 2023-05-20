@@ -75,7 +75,7 @@ def get_img_from_prompt_hero(quote ="hello world!", model = "prompthero/openjour
                     "height": height,
                     "num_inference_steps": 50,
                     "seed": seed, 
-                    "guidance_scale": 8}
+                    "guidance_scale": 20}
         )
     else:
         output = replicate.run(
@@ -84,7 +84,7 @@ def get_img_from_prompt_hero(quote ="hello world!", model = "prompthero/openjour
             "width": width,
             "height": height,
             "num_inference_steps": 50,
-            "guidance_scale": 8}
+            "guidance_scale": 20}
         )
     print(output)
     return output[0]

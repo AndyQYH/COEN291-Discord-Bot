@@ -28,8 +28,8 @@ class MyView(View):
         await interaction.response.send_message(content = "Here it is: \n\n")
         joke = joke_to_dc()
         joke_new = joke.split('\n')[2].split(':')[1]
-        print("jokes: \n", joke)
-        await interaction.edit_original_response(content = "Here it is: \n\n" + joke + '\n', view = MyJokeView(self.ctx, joke_new))
+        print("jokes: \n", joke_new)
+        await interaction.edit_original_response(content = "Here it is: \n\n" + joke + '\n', view = MyJokeView(self.ctx, joke = joke_new, genre=button.label))
         # SENDS A MESSAGE TO THE CHANNEL USING THE CONTEXT OBJECT.
         
         self.stop()
@@ -38,21 +38,25 @@ class MyView(View):
     async def button2_callback(self,  button: discord.Button, interaction: discord.Interaction):
         await interaction.response.send_message(content = "Here it is: \n\n")
         joke = joke_to_dc(file="dadjokes.txt")
-        #print("jokes: \n", joke)
-        await interaction.edit_original_response(content = "Here it is: \n\n" + joke + '\n', view = MyJokeView(self.ctx, joke))
+        joke_new = joke.split('\n')[2].split(':')[1]
+        print("jokes: \n", joke_new)
+        await interaction.edit_original_response(content = "Here it is: \n\n" + joke + '\n', view = MyJokeView(self.ctx, joke = joke_new, genre=button.label))
         # SENDS A MESSAGE TO THE CHANNEL USING THE CONTEXT OBJECT.
         
         self.stop()
+
+    '''
     @discord.ui.button(label = "anti jokes", style=discord.ButtonStyle.primary, emoji="🤪")
     async def button3_callback(self,  button: discord.Button, interaction: discord.Interaction):
         # SENDS A MESSAGE TO THE CHANNEL USING THE CONTEXT OBJECT.
         await interaction.response.send_message(content = "Here it is: \n\n")
         joke = joke_to_dc(file="antijokes.txt")
-        #print("jokes: \n", joke)
-        await interaction.edit_original_response(content = "Here it is: \n\n" + joke + '\n', view = MyJokeView(self.ctx, joke))
+        joke_new = joke.split('\n')[2].split(':')[1]
+        print("jokes: \n", joke_new)
+        await interaction.edit_original_response(content = "Here it is: \n\n" + joke + '\n', view = MyJokeView(self.ctx, joke = joke_new, genre=button.label))
         self.stop()
 
-    '''
+    
     @discord.ui.button(label = "dirty jokes", style=discord.ButtonStyle.gray, emoji="😍")
     async def button4_callback(self,  button: discord.Button, interaction: discord.Interaction):
         await interaction.response.send_message("so you choose " + button.label + " !")
@@ -66,8 +70,9 @@ class MyView(View):
         # SENDS A MESSAGE TO THE CHANNEL USING THE CONTEXT OBJECT.
         await interaction.response.send_message(content = "Here it is: \n\n")
         joke = joke_to_dc(file="long_jokes.txt")
-        print("jokes: \n", joke)
-        await interaction.edit_original_response(content = "Here it is: \n\n" + joke + '\n', view = MyJokeView(self.ctx, joke))
+        joke_new = joke.split('\n')[2].split(':')[1]
+        print("jokes: \n", joke_new)
+        await interaction.edit_original_response(content = "Here it is: \n\n" + joke + '\n', view = MyJokeView(self.ctx, joke = joke_new, genre=button.label))
         
         self.stop()
         
@@ -84,10 +89,11 @@ class MyView(View):
         await interaction.response.send_message(str(error))
         
 class MyJokeView(View):
-    def __init__(self, ctx, joke, timeout = 100):
+    def __init__(self, ctx, joke, genre ="random jokes", timeout = 100):
         super().__init__(timeout = timeout)
         self.ctx = ctx
         self.joke = joke
+        self.genre = genre
         
     @discord.ui.button(label = "Go with this", style=discord.ButtonStyle.blurple, emoji="✅")
     async def buttonG_callback(self,  button: discord.Button, interaction: discord.Interaction):
@@ -100,18 +106,24 @@ class MyJokeView(View):
     async def buttonR_callback(self,  button: discord.Button, interaction: discord.Interaction):
         
         # SENDS A MESSAGE TO THE CHANNEL USING THE CONTEXT OBJECT.
-        await interaction.response.send_message(content = "Here is a new one: \n\n")
+
+        await interaction.response.send_message(content = "Ok let's make a new " +  self.genre + "!")
         joke = ""
-        if button.label == "random jokes":
+        if self.genre == "random jokes":
+            print("generating new random jokes ... ")
             joke = joke_to_dc()
-        elif button.label == "dad jokes":
+        elif self.genre == "dad jokes":
+            print("generating new dad jokes ... ")
             joke = joke_to_dc(file = "dadjokes.txt")
-        elif button.label == "anti jokes":
+        elif self.genre == "anti jokes":
+            print("generating new anti jokes ... ")
             joke = joke_to_dc(file = "antijokes.txt")
         else:
+            print("generating new long jokes ... ")
             joke = joke_to_dc(file = "long_jokes.txt")
-        print("jokes: \n", joke)
-        await interaction.edit_original_response(content = "Here it a new one: \n\n" + joke + '\n', view = MyJokeView(self.ctx, joke = joke))
+        joke_new = joke.split('\n')[2].split(':')[1]
+        print("jokes: \n", joke_new)
+        await interaction.edit_original_response(content = "Here it a new " +  self.genre + ": \n\n" + joke + '\n', view = MyJokeView(self.ctx, joke = joke_new, genre = self.genre))
         
         
         self.stop()
@@ -154,8 +166,14 @@ class MySelectView(View):
     )
     async def select_callback(self, select:discord.ui.select, interaction:discord.interactions): # the function called when the user is done selecting options
         
-        await interaction.response.send_message(f"Awesome! I like {select.values[0]} too! \n\n ")
-        await joke_pic_to_dc(self.ctx, self.joke, pic_source=select.values[0])
+        await interaction.response.send_message(f"Awesome! I like {select.values[0]}! \n\n ")
+
+        for i in range(len(select.values)):
+            if i != 0:
+                await self.ctx.channel.send(content =f"And of course I also like {select.values[i]}! \n\n " )
+            await joke_pic_to_dc(self.ctx, self.joke, pic_source=select.values[i])
+            
+            
         new_view = MyView(self.ctx, timeout = 100)
         await self.ctx.channel.send(view = new_view)
     
@@ -174,10 +192,9 @@ def joke_to_dc(file = "all_jokes.txt", path = joke_path) -> str:
 
 async def joke_pic_to_dc(ctx, joke, pic_source = "Stability.ai Stable Diffusion SD XL"):
     joke_imgs = []
-    joke_prompt = jokes.joke_prompitize_GPT(joke, prompt= "Open Journey")
-  
+    joke_prompt = jokes.joke_prompitize_GPT(joke, source = pic_source)
     await ctx.channel.send("Here is the prompt for the joke pic: \n\n" + joke_prompt)
-    
+
     Wallpaper.get_wallpaper(quote = joke, prompt = joke_prompt, image_path = "images", source = pic_source)
     #await ctx.channel.send(os.listdir(os.getcwd() +"/images"))
     for file in os.listdir(os.getcwd() +"/images"):

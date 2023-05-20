@@ -7,6 +7,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
+
 def get_jokes_raw(file = 'all_jokes.txt', path = "jokes/"):
     ### LOADING JOKES INTO LIST
     jokeList = []
@@ -97,7 +98,7 @@ def joke_normalize_GPT(generated_jokes, model_name = "gpt-3.5-turbo", prompt = "
     print(random_joke)
     print("\n")
 
-    message = "Here is a joke: {joke} .\n Rewrite this joke to be funnier. I want the rewritten joke to have a similar number of words to the original joke. The response have the original joke and the rewritten joke. \n".format(joke = random_joke)
+    message = "Here is a joke: {joke} .\n Rewrite this joke to be funnier. The rewritten joke must to have a similar number of words to the original joke. The response have the original joke and the rewritten joke. \n".format(joke = random_joke)
     if prompt != "":
         #message = prompt.format(joke = random_joke)
         return random_joke
@@ -112,13 +113,16 @@ def joke_normalize_GPT(generated_jokes, model_name = "gpt-3.5-turbo", prompt = "
     print(f"ChatGPT: {reply}")
     return reply
 
-def joke_prompitize_GPT(generated_joke, model_name = "gpt-3.5-turbo", prompt = ""):
+def joke_prompitize_GPT(generated_joke, model_name = "gpt-3.5-turbo", source = ""):
     openai.api_key = os.getenv('OPENAI_API')
 
     messages = [ {"role": "system", "content": "You are an intelligent assistant and funny."} ]
     
-
-    message = "\nTurn this joke into a prompt for Art Generation on {prompt}: \n\n {joke} \n\n the prompt should include \"animated digital art, beautiful composition, elaborate\". Make sure the prompt captures the details in the joke. Also make sure the prompt excludes bad anatomy, blurry layout, extra arms, extra fingers, poorly drawn hands, disfigured shape, tiling, deformation, and mutation in the art. \n\n The response should be the prompt only.".format(joke = generated_joke, prompt = prompt)
+    if source == "Stability.ai Stable Diffusion SD XL":
+        message = "\nBreak this joke down into a prompt for AI Art Generation: \n\n {joke} \n\n the prompt should include keywords such as\"cartoon style, simplistic design, 2k\". Make sure the prompt captures the details in the joke. Also make sure the prompt excludes bad anatomy, blurry layout, extra arms, extra fingers, poorly drawn hands, disfigured shape, tiling, deformation, and mutation in the art. \n\n The response should be the prompt only.".format(joke = generated_joke)
+    else:
+        message = "\nBreak this joke down into a prompt for AI Art Generation: \n\n {joke} \n\n the prompt should include keywords such as\"cartoon style, simplistic design\". Make sure the prompt captures the main subjects in the joke. \n\n The prompt should be in keywords, separated by commas. \n\n The response should be the prompt only".format(joke = generated_joke)
+    #message = "\nTurn this joke into a prompt for AI Art Generation on {prompt}: \n\n {joke} \n\n the prompt should include keywords such as\"digital art, beautiful composition, detailed, elaborate, 2k\". Make sure the prompt captures the details in the joke. Also make sure the prompt excludes bad anatomy, blurry layout, extra arms, extra fingers, poorly drawn hands, disfigured shape, tiling, deformation, and mutation in the art. \n\n The response should be the prompt only.".format(joke = generated_joke, prompt = prompt)
     print(message)
     messages.append(
         {"role": "user", "content": message},
