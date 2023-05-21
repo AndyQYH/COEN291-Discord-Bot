@@ -136,7 +136,7 @@ class MyJokeView(View):
     @discord.ui.button(label = "Go with this", style=discord.ButtonStyle.blurple, emoji="✅")
     async def buttonG_callback(self,  button: discord.Button, interaction: discord.Interaction):
         new_view = MySelectView(self.ctx, joke = self.joke)
-        await interaction.response.send_message("Cool let's generate an image for your joke next !", view = new_view )
+        await interaction.response.send_message("Cool let's generate an image for your next joke !", view = new_view )
         # SENDS A MESSAGE TO THE CHANNEL USING THE CONTEXT OBJECT.
         
         for item in self.children:
@@ -158,19 +158,19 @@ class MyJokeView(View):
         joke = ""
         joke_new = ""
         if self.genre == "random jokes":
-            print("generating new random jokes ... ")
+            print("generating a new random joke ... ")
             joke = joke_to_dc(genre=self.genre)
             joke_new = joke.split('\n')[2].split(':')[1]
         elif self.genre == "dad jokes":
-            print("generating new dad jokes ... ")
+            print("generating a new dad joke ... ")
             joke = joke_to_dc(genre=self.genre, file = "dadjokes.txt")
             joke_new = joke.split('\n')[2].split(':')[1]
         elif self.genre == "anti jokes":
-            print("generating new anti jokes ... ")
+            print("generating a new anti joke ... ")
             joke = joke_to_dc(genre=self.genre, file = "antijokes.txt")
             joke_new = joke.split('\n')[2].split(':')[1]
         elif self.genre == "long jokes":
-            print("generating new long jokes ... ")
+            print("generating a new long joke ... ")
             joke = joke_to_dc(genre=self.genre, file = "long_jokes.txt")
             joke_new = joke.split('\n')[2].split(':')[1]
         else:
@@ -231,11 +231,11 @@ class MySelectView(View):
             await joke_pic_to_dc(self.ctx, self.joke, pic_source=select.values[i])
             
             
-        new_view = MyView(self.ctx, timeout = 100)
-        await self.ctx.channel.send(view = new_view)
+        #new_view = MyView(self.ctx, timeout = 100)
+        #await self.ctx.channel.send(view = new_view)
         
         self.stop()
-        await new_view.wait()
+        #await new_view.wait()
     
 def joke_to_dc(genre, file = "all_jokes.txt", path = joke_path) -> str:
     jokeList = jokes.get_jokes_raw(file, path)

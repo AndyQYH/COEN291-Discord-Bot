@@ -98,7 +98,8 @@ def joke_normalize_GPT(generated_jokes, genre, model_name = "gpt-3.5-turbo", pro
     print(random_joke)
     print("\n")
 
-    message = "Here is a joke: {joke} .\n Rewrite this joke to be funnier. The rewritten joke must to have a similar number of words to the original joke and should be a {genre}. The response have the original joke and the rewritten joke. \n".format(joke = random_joke, genre = genre)
+    message = "Here is a joke: {joke} .\n Edit this joke to be funnier. The rewritten joke must have a similar number of words to the original joke. The rewritten joke must also have a similar punchline to the original joke. It is okay to remove sentences if they do not make sense to the joke. If there is no punchline, please add an appropriate punchline. The response should only include the original joke and the rewritten joke. \n".format(joke = random_joke)
+    #message = "Here is a joke: {joke} .\n Rewrite this joke to be funnier. The rewritten joke must to have a similar number of words to the original joke and should be a {genre}. The response have the original joke and the rewritten joke. \n".format(joke = random_joke, genre = genre)
     if prompt != "":
         #message = prompt.format(joke = random_joke)
         return random_joke
