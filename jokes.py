@@ -90,7 +90,7 @@ def joke_generate(jokeList):
             
     return generated_jokes
 
-def joke_normalize_GPT(generated_jokes, model_name = "gpt-3.5-turbo", prompt = ""):
+def joke_normalize_GPT(generated_jokes, genre, model_name = "gpt-3.5-turbo", prompt = ""):
     openai.api_key = os.getenv('OPENAI_API')
 
     messages = [ {"role": "system", "content": "You are an intelligent assistant and funny."} ]
@@ -98,7 +98,7 @@ def joke_normalize_GPT(generated_jokes, model_name = "gpt-3.5-turbo", prompt = "
     print(random_joke)
     print("\n")
 
-    message = "Here is a joke: {joke} .\n Rewrite this joke to be funnier. The rewritten joke must to have a similar number of words to the original joke. The response have the original joke and the rewritten joke. \n".format(joke = random_joke)
+    message = "Here is a joke: {joke} .\n Rewrite this joke to be funnier. The rewritten joke must to have a similar number of words to the original joke and should be a {genre}. The response have the original joke and the rewritten joke. \n".format(joke = random_joke, genre = genre)
     if prompt != "":
         #message = prompt.format(joke = random_joke)
         return random_joke
@@ -119,10 +119,33 @@ def joke_prompitize_GPT(generated_joke, model_name = "gpt-3.5-turbo", source = "
     messages = [ {"role": "system", "content": "You are an intelligent assistant and funny."} ]
     
     if source == "Stability.ai Stable Diffusion SD XL":
-        message = "\nBreak the joke {joke} down  into a prompt for AI Art Generation.\n\n the prompt should include keywords such as\"cartoon style, simplistic design, 2k\". Make sure the prompt captures the details in the joke. Also make sure the prompt excludes bad anatomy, blurry layout, extra arms, extra fingers, poorly drawn hands, disfigured shape, tiling, deformation, and mutation in the art. \n\n The response should be the prompt only.".format(joke = generated_joke)
+        message = "\nBreak the joke {joke} down into a prompt for AI Art Generation.\n\n the prompt should include keywords such as\"cartoon style, simplistic design, 2k\". Make sure the prompt captures the details in the joke. Also make sure the prompt excludes bad anatomy, blurry layout, extra arms, extra fingers, poorly drawn hands, disfigured shape, tiling, deformation, and mutation in the art. \n\n The response should be the prompt only.".format(joke = generated_joke)
     else:
         message = "\nBreak the joke {joke} down into a prompt for AI Art Generation. \n\n The prompt should include keywords such as\"cartoon style, simplistic design\". Make sure the prompt captures the main subjects in the joke. \n\n The prompt should be a list of keywords, separated by commas. \n\n The response should be the prompt only".format(joke = generated_joke)
     #message = "\nTurn this joke into a prompt for AI Art Generation on {prompt}: \n\n {joke} \n\n the prompt should include keywords such as\"digital art, beautiful composition, detailed, elaborate, 2k\". Make sure the prompt captures the details in the joke. Also make sure the prompt excludes bad anatomy, blurry layout, extra arms, extra fingers, poorly drawn hands, disfigured shape, tiling, deformation, and mutation in the art. \n\n The response should be the prompt only.".format(joke = generated_joke, prompt = prompt)
+    print(message)
+    messages.append(
+        {"role": "user", "content": message},
+    )
+    chat = openai.ChatCompletion.create(
+        model= model_name, messages=messages
+    )
+    reply = chat.choices[0].message.content
+    print(f"ChatGPT: {reply}")
+    return reply
+
+def joke_from_GPT(description, model_name = "gpt-3.5-turbo", prompt = ""):
+    openai.api_key = os.getenv('OPENAI_API')
+
+    messages = [ {"role": "system", "content": "You are an intelligent assistant and funny."} ]
+    random_joke = description
+    print(random_joke)
+    print("\n")
+
+    message = "Write a funny joke that is related to {joke}. \n\n The joke should include the word {joke}.\n\nThe length of the joke shold not be too long. \n\n The response should be the joke only. \n".format(joke = random_joke)
+    if prompt != "":
+        #message = prompt.format(joke = random_joke)
+        return random_joke
     print(message)
     messages.append(
         {"role": "user", "content": message},

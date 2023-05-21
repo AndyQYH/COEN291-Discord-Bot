@@ -1,8 +1,34 @@
-INFO       - 2023-05-20 02:08:35,192 - client          : logging in using static token
-INFO       - 2023-05-20 02:08:35,647 - gateway         : Shard ID None has sent the IDENTIFY payload.
-INFO       - 2023-05-20 02:08:35,878 - gateway         : Shard ID None has connected to Gateway: ["gateway-prd-us-east1-d-7c9h",{"micros":131150,"calls":["id_created",{"micros":2449,"calls":[]},"session_lookup_time",{"micros":255,"calls":[]},"session_lookup_finished",{"micros":11,"calls":[]},"discord-sessions-prd-2-42",{"micros":127529,"calls":["start_session",{"micros":73926,"calls":["discord-api-5f67f945b9-k65kn",{"micros":68202,"calls":["get_user",{"micros":22355},"get_guilds",{"micros":7666},"send_scheduled_deletion_message",{"micros":14},"guild_join_requests",{"micros":496},"authorized_ip_coro",{"micros":14}]}]},"starting_guild_connect",{"micros":59,"calls":[]},"presence_started",{"micros":348,"calls":[]},"guilds_started",{"micros":146,"calls":[]},"guilds_connect",{"micros":2,"calls":[]},"presence_connect",{"micros":53004,"calls":[]},"connect_finished",{"micros":53009,"calls":[]},"build_ready",{"micros":37,"calls":[]},"clean_ready",{"micros":0,"calls":[]},"optimize_ready",{"micros":1,"calls":[]},"split_ready",{"micros":1,"calls":[]}]}]}] (Session ID: a1349ed27900357de75c4cc1cf1e5b21).
-INFO       - 2023-05-20 02:15:49,952 - client          : Received signal to terminate bot and event loop.
-INFO       - 2023-05-20 02:15:49,952 - client          : Cleaning up tasks.
-INFO       - 2023-05-20 02:15:49,952 - client          : Cleaning up after 1 tasks.
-INFO       - 2023-05-20 02:15:50,040 - client          : All tasks finished cancelling.
-INFO       - 2023-05-20 02:15:50,041 - client          : Closing the event loop.
+INFO       - 2023-05-20 20:41:30,422 - client          : logging in using static token
+INFO       - 2023-05-20 20:41:30,848 - gateway         : Shard ID None has sent the IDENTIFY payload.
+INFO       - 2023-05-20 20:41:31,193 - gateway         : Shard ID None has connected to Gateway: ["gateway-prd-us-east1-d-hdfj",{"micros":253707,"calls":["id_created",{"micros":1035,"calls":[]},"session_lookup_time",{"micros":1015,"calls":[]},"session_lookup_finished",{"micros":13,"calls":[]},"discord-sessions-prd-2-246",{"micros":251207,"calls":["start_session",{"micros":161088,"calls":["discord-api-6f6444db7c-v2nqz",{"micros":149303,"calls":["get_user",{"micros":34736},"get_guilds",{"micros":17996},"send_scheduled_deletion_message",{"micros":10},"guild_join_requests",{"micros":2},"authorized_ip_coro",{"micros":13}]}]},"starting_guild_connect",{"micros":51,"calls":[]},"presence_started",{"micros":42065,"calls":[]},"guilds_started",{"micros":162,"calls":[]},"guilds_connect",{"micros":3,"calls":[]},"presence_connect",{"micros":47796,"calls":[]},"connect_finished",{"micros":47804,"calls":[]},"build_ready",{"micros":32,"calls":[]},"clean_ready",{"micros":1,"calls":[]},"optimize_ready",{"micros":1,"calls":[]},"split_ready",{"micros":1,"calls":[]}]}]}] (Session ID: fb2eaa42c16f9e692ff3ed30dbca0bee).
+WARNING    - 2023-05-20 20:43:03,383 - gateway         : Shard ID None heartbeat blocked for more than 10 seconds.
+Loop thread traceback (most recent call last):
+  File "C:\Users\qinan\OneDrive\Desktop\COEN\COEN291\bot\main.py", line 110, in <module>
+    run_bot(dc_token)
+  File "C:\Users\qinan\OneDrive\Desktop\COEN\COEN291\bot\main.py", line 107, in run_bot
+    bot.run(token = token)
+  File "C:\Users\qinan\anaconda3\lib\site-packages\discord\client.py", line 707, in run
+    loop.run_forever()
+  File "C:\Users\qinan\anaconda3\lib\asyncio\windows_events.py", line 316, in run_forever
+    super().run_forever()
+  File "C:\Users\qinan\anaconda3\lib\asyncio\base_events.py", line 596, in run_forever
+    self._run_once()
+  File "C:\Users\qinan\anaconda3\lib\asyncio\base_events.py", line 1890, in _run_once
+    handle._run()
+  File "C:\Users\qinan\anaconda3\lib\asyncio\events.py", line 80, in _run
+    self._context.run(self._callback, *self._args)
+  File "C:\Users\qinan\anaconda3\lib\site-packages\discord\ui\view.py", line 414, in _scheduled_task
+    await item.callback(interaction)
+  File "C:\Users\qinan\OneDrive\Desktop\COEN\COEN291\bot\dc_mod.py", line 231, in select_callback
+    await joke_pic_to_dc(self.ctx, self.joke, pic_source=select.values[i])
+  File "C:\Users\qinan\OneDrive\Desktop\COEN\COEN291\bot\dc_mod.py", line 258, in joke_pic_to_dc
+    Wallpaper.get_wallpaper(quote = joke, prompt = joke_prompt, image_path = "images", source = pic_source)
+  File "C:\Users\qinan\OneDrive\Desktop\COEN\COEN291\bot\Wallpaper.py", line 124, in get_wallpaper
+    out_img.save(image_path + '/' + 'created_image_2.png')
+  File "C:\Users\qinan\anaconda3\lib\site-packages\PIL\Image.py", line 2240, in save
+    save_handler(self, fp, filename)
+  File "C:\Users\qinan\anaconda3\lib\site-packages\PIL\PngImagePlugin.py", line 1348, in _save
+    ImageFile._save(im, _idat(fp, chunk), [("zip", (0, 0) + im.size, 0, rawmode)])
+  File "C:\Users\qinan\anaconda3\lib\site-packages\PIL\ImageFile.py", line 518, in _save
+    l, s, d = e.encode(bufsize)
+

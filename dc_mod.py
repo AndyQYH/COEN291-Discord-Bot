@@ -9,13 +9,21 @@ import os
 
 joke_path = "jokes/"
 
-class MyButton(Button):
-    def __init__(self, label, style = discord.ButtonStyle.gray, emoji = None):
-        super().__init__(label = label, style=style, emoji= emoji)
-    async def callback(self, button, interaction):
-        self.disabled = True
-        await interaction.followup.send("So you choose " + button.label + "!")
-        self.disabled = False
+class MyModal(discord.ui.Modal):
+    def __init__(self, ctx, *args, **kwargs) -> None:
+        super().__init__(*args, **kwargs)
+        self.ctx = ctx
+        self.add_item(discord.ui.InputText(label="Joke that is related to:", placeholder="Donald Trump, Micky Mouse, etc.", style=discord.InputTextStyle.short))
+
+    async def callback(self, interaction: discord.Interaction):
+        embed = discord.Embed(title="Search Result")
+        embed.add_field(name="Joke that has: ", value=self.children[0].value)
+        
+        await interaction.response.send_message(content = "So you want a joke that is related to " + self.children[0].value, embeds=[embed])
+        joke_new = jokes.joke_from_GPT(self.children[0].value)
+        new_view = MyJokeView(self.ctx, joke = joke_new, genre=self.children[0].value)
+        await interaction.edit_original_response(content = "Here is one: \n\n " + joke_new, view=new_view)
+        await new_view.wait()
         
 class MyView(View):
     def __init__(self, ctx, timeout = 50):
@@ -32,8 +40,8 @@ class MyView(View):
                 item.disabled = True
         await self.message.edit(view = self)
         
-        joke = joke_to_dc()
-        joke_new = joke.split('\n')[2].split(':')[1]
+        joke = joke_to_dc(genre = button.label)
+        joke_new = joke.split('\n')[-1].split(':')[1]
         print("jokes: \n", joke_new)
         new_view = MyJokeView(self.ctx, joke = joke_new, genre=button.label)
         await interaction.edit_original_response(content = "Here it is: \n\n" + joke + '\n', view = new_view)
@@ -51,8 +59,8 @@ class MyView(View):
                 item.disabled = True
         await self.message.edit(view = self)
         
-        joke = joke_to_dc(file="dadjokes.txt")
-        joke_new = joke.split('\n')[2].split(':')[1]
+        joke = joke_to_dc(genre = button.label, file="dadjokes.txt")
+        joke_new = joke.split('\n')[-1].split(':')[1]
         print("jokes: \n", joke_new)
        
         # SENDS A MESSAGE TO THE CHANNEL USING THE CONTEXT OBJECT.
@@ -78,11 +86,11 @@ class MyView(View):
     async def button4_callback(self,  button: discord.Button, interaction: discord.Interaction):
         await interaction.response.send_message("so you choose " + button.label + " !")
         # SENDS A MESSAGE TO THE CHANNEL USING THE CONTEXT OBJECT.
-        await joke_to_dc(self.ctx, file = "dirtyjokes.txt")
+        await joke_to_dc(self.ctx, file = "dirtyjokes.txt")🔍
         self.stop()
     '''
     @discord.ui.button(label = "long jokes", style=discord.ButtonStyle.secondary, emoji="😯")
-    async def button4_callback(self,  button: discord.Button, interaction: discord.Interaction):
+    async def button3_callback(self,  button: discord.Button, interaction: discord.Interaction):
         
         # SENDS A MESSAGE TO THE CHANNEL USING THE CONTEXT OBJECT.
         await interaction.response.send_message(content = "Here it is: \n\n")
@@ -90,14 +98,21 @@ class MyView(View):
             if item != button:
                 item.disabled = True
         await self.message.edit(view = self)
-        joke = joke_to_dc(file="long_jokes.txt")
-        joke_new = joke.split('\n')[2].split(':')[1]
+        joke = joke_to_dc(genre = button.label, file="long_jokes.txt")
+        joke_new = joke.split('\n')[-1].split(':')[1]
         print("jokes: \n", joke_new)
         new_view = MyJokeView(self.ctx, joke = joke_new, genre=button.label)
         await interaction.edit_original_response(content = "Here it is: \n\n" + joke + '\n', view = new_view)
         
         self.stop()
         await new_view.wait()
+        
+    @discord.ui.button(label = "search a joke", style=discord.ButtonStyle.gray, emoji="🔍")
+    async def button4_callback(self,  button: discord.Button, interaction: discord.Interaction):
+        await interaction.response.send_modal(MyModal(self.ctx, title="Joke Option"))
+        # SENDS A MESSAGE TO THE CHANNEL USING THE CONTEXT OBJECT.
+        
+        self.stop()
         
     async def disable_all_items(self):
         for item in self.children:
@@ -141,26 +156,31 @@ class MyJokeView(View):
         await interaction.response.send_message(content = "Ok let's make a new " +  self.genre + "!")
         
         joke = ""
+        joke_new = ""
         if self.genre == "random jokes":
             print("generating new random jokes ... ")
-            joke = joke_to_dc()
+            joke = joke_to_dc(genre=self.genre)
+            joke_new = joke.split('\n')[2].split(':')[1]
         elif self.genre == "dad jokes":
             print("generating new dad jokes ... ")
-            joke = joke_to_dc(file = "dadjokes.txt")
+            joke = joke_to_dc(genre=self.genre, file = "dadjokes.txt")
+            joke_new = joke.split('\n')[2].split(':')[1]
         elif self.genre == "anti jokes":
             print("generating new anti jokes ... ")
-            joke = joke_to_dc(file = "antijokes.txt")
-        else:
+            joke = joke_to_dc(genre=self.genre, file = "antijokes.txt")
+            joke_new = joke.split('\n')[2].split(':')[1]
+        elif self.genre == "long jokes":
             print("generating new long jokes ... ")
-            joke = joke_to_dc(file = "long_jokes.txt")
-        joke_new = joke.split('\n')[2].split(':')[1]
+            joke = joke_to_dc(genre=self.genre, file = "long_jokes.txt")
+            joke_new = joke.split('\n')[2].split(':')[1]
+        else:
+            joke = jokes.joke_from_GPT(description=self.genre)
+            joke_new = joke  
+        
         print("jokes: \n", joke_new)
         
-        
-        
-        
         new_view = MyJokeView(self.ctx, joke = joke_new, genre = self.genre)
-        await interaction.edit_original_response(content = "Here it a new " +  self.genre + ": \n\n" + joke + '\n', view = new_view)
+        await interaction.edit_original_response(content = "Here is a new joke related to " +  self.genre + ": \n\n" + joke + '\n', view = new_view)
         
         self.stop()
         await new_view.wait()
@@ -217,16 +237,16 @@ class MySelectView(View):
         self.stop()
         await new_view.wait()
     
-def joke_to_dc(file = "all_jokes.txt", path = joke_path) -> str:
+def joke_to_dc(genre, file = "all_jokes.txt", path = joke_path) -> str:
     jokeList = jokes.get_jokes_raw(file, path)
     jokeList = jokes.joke_preprocess(jokeList)
     jokeList = jokes.joke_generate(jokeList)
     
     joke = ''
     if file == "dirtyjokes.txt":
-        joke = jokes.joke_normalize_GPT(jokeList, prompt = "Here is a joke: {joke} \n Can you modify this joke to be appropriate? I want the rewritten joke to have a similar number of words to the original joke.  \n")
+        joke = jokes.joke_normalize_GPT(jokeList, genre = genre, prompt = "Here is a joke: {joke} \n Can you modify this joke to be appropriate? I want the rewritten joke to have a similar number of words to the original joke.  \n")
     else:
-        joke = jokes.joke_normalize_GPT(jokeList)
+        joke = jokes.joke_normalize_GPT(jokeList, genre = genre)
         
     return joke
 

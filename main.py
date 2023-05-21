@@ -12,9 +12,7 @@ load_dotenv()
 dc_token = os.getenv("DISCORD_TOKEN")
 dc_secret = os.getenv("DISCORD_SECRET")
 logger = settings.logging.getLogger("bot")
-#jokeList = jokes.get_jokes_raw()
-#jokeList = jokes.joke_preprocess(jokeList)
-#jokeList = jokes.joke_generate(jokeList)
+channel_ids = ['1107902507587477525', '863688065590493185']
 
 
 
@@ -95,9 +93,12 @@ def run_bot(token):
     async def joke(ctx:commands.Context):
         # given users some choices to choose from joke categories
         
-        # SENDS A MESSAGE TO THE CHANNEL USING THE CONTEXT OBJECT.
-        new_view = MyView(ctx, timeout = 100)
-        await ctx.respond("Make a Choice", view = new_view)
+        if str(ctx.channel.id) in channel_ids:
+            # SENDS A MESSAGE TO THE CHANNEL USING THE CONTEXT OBJECT.
+            new_view = MyView(ctx, timeout = 100)
+            await ctx.respond("Make a Choice", view = new_view)
+        else:
+            await ctx.respond("Command not valid in this channel! For permission please ask the host {host}!".format(host = '<@' + str(ctx.guild.owner_id) + '>'))
         
         
         

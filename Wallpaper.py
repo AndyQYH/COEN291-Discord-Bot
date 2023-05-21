@@ -106,16 +106,17 @@ def get_wallpaper(quote, prompt,  image_path = '', source = 'Stability.ai Stable
     #image_array_comp = (lo + hi) - image_array
     image_array_comp = 255 - image_array
     out_img = Image.fromarray(image_array_comp)
+    lo_comp = np.amin(image_array_comp, axis=2, keepdims=True)
+    hi_comp = np.amax(image_array_comp, axis= (0,1))
+    print("high comp: \n", hi_comp)
     out_img.putalpha(255)
     image.putalpha(128)
    
     #mask = Image.new(mode ='L',size = image.size, color = 0)
-    #h,s,l = random.random(), 0.5 + random.random()/2.0, 0.4 + random.random()/5.0
-    #r,g,b = [int(256*i) for i in colorsys.hls_to_rgb(h,l,s)]
     image = image.filter(ImageFilter.GaussianBlur(2))
     font = ImageFont.truetype("Quicksand/static/Quicksand-Bold.ttf", 36)
     text1 = quote
-    text_color = tuple(hi)
+    text_color = tuple(hi_comp)
     text_start_height = 50
     draw_text_on_image(image, text1, font, text_color, text_start_height)
     #image_comp = Image.composite(out_img, image, mask)
