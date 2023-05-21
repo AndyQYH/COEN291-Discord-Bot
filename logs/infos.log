@@ -32,3 +32,8 @@ Loop thread traceback (most recent call last):
   File "C:\Users\qinan\anaconda3\lib\site-packages\PIL\ImageFile.py", line 518, in _save
     l, s, d = e.encode(bufsize)
 
+INFO       - 2023-05-20 20:44:11,260 - client          : Received signal to terminate bot and event loop.
+INFO       - 2023-05-20 20:44:11,260 - client          : Cleaning up tasks.
+INFO       - 2023-05-20 20:44:11,260 - client          : Cleaning up after 3 tasks.
+INFO       - 2023-05-20 20:44:11,354 - client          : All tasks finished cancelling.
+INFO       - 2023-05-20 20:44:11,354 - client          : Closing the event loop.
